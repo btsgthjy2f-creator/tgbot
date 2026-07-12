@@ -5,12 +5,12 @@
 # ╚══════════════════════════════════════════╝
 # ============================================
 
-import json, re, random, string, asyncio, aiohttp
+import json, os, re, random, string, asyncio, aiohttp
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 
-BOT_TOKEN = "8920042039:AAEgHZ6bhMxjNIws11omZaePEuvp9ytWjE4"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL = "@xb1ns"
 OWNER_ID = 8418640972
 ADMIN_IDS = [8418640972, 7502457749]
