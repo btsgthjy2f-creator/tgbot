@@ -46,17 +46,11 @@ def em(k):
     eid = EMO.get(k, "")
     return f'<tg-emoji emoji-id="{eid}">👍</tg-emoji>' if eid else "❓"
 
-def btn(text, callback, style=None, emoji_key=None):
-    b = {"text": text, "callback_data": callback}
-    if style: b["style"] = style
-    if emoji_key and emoji_key in EMO: b["icon_custom_emoji_id"] = EMO[emoji_key]
-    return b
+def btn(text, callback):
+    return {"text": text, "callback_data": callback}
 
-def btn_url(text, url, style=None, emoji_key=None):
-    b = {"text": text, "url": url}
-    if style: b["style"] = style
-    if emoji_key and emoji_key in EMO: b["icon_custom_emoji_id"] = EMO[emoji_key]
-    return b
+def btn_url(text, url):
+    return {"text": text, "url": url}
 
 def is_admin(uid): return uid in ADMIN_IDS
 def is_owner(uid): return uid == OWNER_ID
@@ -147,29 +141,29 @@ def generate_key():
     return "XB1NS-" + "".join(random.choice(chars) for _ in range(8))
 
 def start_kb(uid):
-    kb = [[btn(" CMDS", "menu_cmds", "primary", "MENU"), btn(" INFO", "menu_info", "primary", "INFO")]]
-    if is_admin(uid): kb.append([btn(" ADMIN PANEL", "admin_panel", "danger", "CROWN")])
-    kb.append([btn_url(" CHANNEL", "https://t.me/xb1ns", "primary", "CHANNEL_EMO")])
+    kb = [[btn(" CMDS", "menu_cmds"), btn(" INFO", "menu_info")]]
+    if is_admin(uid): kb.append([btn(" ADMIN PANEL", "admin_panel")])
+    kb.append([btn_url(" CHANNEL", "https://t.me/xb1ns")])
     return InlineKeyboardMarkup([[InlineKeyboardButton(**b) for b in row] if isinstance(row, list) else InlineKeyboardButton(**row) for row in kb])
 
 def cmds_kb():
     kb = [
-        [btn(" SINGLE CHECK", "cmd_cc", "primary", "CARD"), btn(" BULK CHECK", "cmd_chk", "success", "BULK")],
-        [btn(" REDEEM KEY", "cmd_redeem", "primary", "KEY")],
-        [btn(" BACK", "main_menu", "danger", "BACK")]
+        [btn(" SINGLE CHECK", "cmd_cc"), btn(" BULK CHECK", "cmd_chk")],
+        [btn(" REDEEM KEY", "cmd_redeem")],
+        [btn(" BACK", "main_menu")]
     ]
     return InlineKeyboardMarkup([[InlineKeyboardButton(**b) for b in row] for row in kb])
 
 def admin_kb():
     kb = [
-        [btn(" GEN KEY", "admin_genkey", "success", "KEY"), btn(" STATS", "admin_stats", "primary", "CHART")],
-        [btn(" ADD PREMIUM", "admin_addprem", "success", "PREMIUM"), btn(" BROADCAST", "admin_broadcast", "primary", "BROADCAST")],
-        [btn(" BACK", "main_menu", "danger", "BACK")]
+        [btn(" GEN KEY", "admin_genkey"), btn(" STATS", "admin_stats")],
+        [btn(" ADD PREMIUM", "admin_addprem"), btn(" BROADCAST", "admin_broadcast")],
+        [btn(" BACK", "main_menu")]
     ]
     return InlineKeyboardMarkup([[InlineKeyboardButton(**b) for b in row] for row in kb])
 
 def back_kb(data="main_menu"):
-    return InlineKeyboardMarkup([[InlineKeyboardButton(**btn(" BACK", data, "danger", "BACK"))]])
+    return InlineKeyboardMarkup([[InlineKeyboardButton(**btn(" BACK", data))]])
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid = update.effective_user.id
