@@ -48,14 +48,10 @@ def em(k):
 
 def btn(text, callback, style=None, emoji_key=None):
     b = {"text": text, "callback_data": callback}
-    if style: b["style"] = style
-    if emoji_key and emoji_key in EMO: b["icon_custom_emoji_id"] = EMO[emoji_key]
     return b
 
 def btn_url(text, url, style=None, emoji_key=None):
     b = {"text": text, "url": url}
-    if style: b["style"] = style
-    if emoji_key and emoji_key in EMO: b["icon_custom_emoji_id"] = EMO[emoji_key]
     return b
 
 def is_admin(uid): return uid in ADMIN_IDS
